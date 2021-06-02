@@ -98,7 +98,7 @@ STEP_MESSAGE = @echo -e "\033[0;32m$(shell echo '$@' | tr a-z A-Z | tr '_' ' '):
 # Our install targets place items item into $PULUMI_ROOT, if it's
 # unset, default to /opt/pulumi.
 ifeq ($(PULUMI_ROOT),)
-	PULUMI_ROOT:=/opt/pulumi
+	PULUMI_ROOT:=/mnt/c/_data/project/terraform/pulumi-tencentcloud/opt/pulumi
 endif
 
 PULUMI_BIN          := $(PULUMI_ROOT)/bin

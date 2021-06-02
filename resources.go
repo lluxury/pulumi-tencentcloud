@@ -22,7 +22,8 @@ import (
 	"github.com/pulumi/pulumi-terraform-bridge/pkg/tfbridge"
 	"github.com/pulumi/pulumi/pkg/resource"
 	"github.com/pulumi/pulumi/pkg/tokens"
-	"github.com/terraform-providers/terraform-provider-tencentcloud/tencentcloud" // err
+	// "github.com/terraform-providers/terraform-provider-tencentcloud/tencentcloud" // err
+	"github.com/tencentcloudstack/terraform-provider-tencentcloud/tencentcloud"
 )
 
 // all of the token components used below.
@@ -87,7 +88,7 @@ var managedByPulumi = &tfbridge.DefaultInfo{Value: "Managed by Pulumi"}
 // Provider returns additional overlaid schema and metadata associated with the provider..
 func Provider() tfbridge.ProviderInfo {
 	// Instantiate the Terraform provider
-	p := xyz.Provider().(*schema.Provider)
+	p := tencentcloud.Provider().(*schema.Provider)
 
 	// Create a Pulumi provider mapping
 	prov := tfbridge.ProviderInfo{
@@ -110,27 +111,27 @@ func Provider() tfbridge.ProviderInfo {
 			"region": {
 				Type: makeType("region", "string"),
 				Default: &tfbridge.DefaultInfo{
-					EnvVars: []string{"UCLOUD_REGION", "UCLOUD_DEFAULT_REGION"},
+					EnvVars: []string{"TENCENTCLOUD_REGION", "TENCENTCLOUD_DEFAULT_REGION"},
 				},
 			},
-			"public_key": {
-				Type: makeType("public_key", "string"),
+			"secret_id": {
+				Type: makeType("secret_id", "string"),
 				Default: &tfbridge.DefaultInfo{
-					EnvVars: []string{"UCLOUD_PUBLIC_KEY", "UCloud Public Key"},
+					EnvVars: []string{"TENCENTCLOUD_SECRET_ID", "tencentcloud_secret_id"},
 				},
 			},
-			"private_key": {
-				Type: makeType("private_key", "string"),
+			"secret_key": {
+				Type: makeType("secret_key", "string"),
 				Default: &tfbridge.DefaultInfo{
-					EnvVars: []string{"UCLOUD_PRIVATE_KEY", "UCloud Private Key"},
+					EnvVars: []string{"TENCENTCLOUD_SECRET_KEY", "tencentcloud_secret_key"},
 				},
 			},
-			"project_id": {
-				Type: makeType("project_id", "string"),
-				Default: &tfbridge.DefaultInfo{
-					EnvVars: []string{"UCLOUD_PROJECT_ID", "UCloud Project Id"},
-				},
-			},			
+			// "project_id": {
+			// 	Type: makeType("project_id", "string"),
+			// 	Default: &tfbridge.DefaultInfo{
+			// 		EnvVars: []string{"TENCENTCLOUD_PROJECT_ID", "TENCENTCLOUD Project Id"},
+			// 	},
+			// },			
 		},
 		PreConfigureCallback: preConfigureCallback,
 		Resources: map[string]*tfbridge.ResourceInfo{
@@ -146,8 +147,8 @@ func Provider() tfbridge.ProviderInfo {
 			// 		"tags": {Type: makeType(mainPkg, "Tags")},
 			// 	},
 			// },
-			"ucloud_vpc":    {Tok: makeResource("ucloud_vpc", "VPC")},
-			"ucloud_subnet": {Tok: makeResource("ucloud_vpc", "Subnet")},			
+			"tencentcloud_vpc":    {Tok: makeResource("tencentcloud_vpc", "VPC")},
+			"tencentcloud_subnet": {Tok: makeResource("tencentcloud_vpc", "Subnet")},			
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
 			// Map each resource in the Terraform provider to a Pulumi function. An example
